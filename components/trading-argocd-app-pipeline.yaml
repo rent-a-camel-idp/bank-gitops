@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trading-pipeline
+  namespace: bank-build
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io  
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rent-a-camel-idp/bank-gitops
+    targetRevision: HEAD
+    path: ./components/trading/pipeline
+    helm:
+      valueFiles:
+        - ../value-files/values-pipeline.yaml
+      values: | 
+        quarkus-pipeline: 
+          baseURL: cluster-q4dlx.q4dlx.sandbox744.opentlc.com
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: bank-build
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=false
+    - RespectIgnoreDifferences=true
+    - ApplyOutOfSyncOnly=true    
+    retry:
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 10m # the maximum amount of time allowed for the backoff strategy                          
