@@ -1,0 +1,10 @@
+quarkus-pipeline:
+  fullnameOverride: trading
+  team: rms
+  repositoryOwner: rent-a-camel-idp
+  ownerType: organization
+  repositoryName: trading
+  # https://el-raffa-qrs2-myapp-build.apps.cluster-q4dlx.q4dlx.sandbox744.opentlc.com
+  baseURL: dummy
+
+  #helm upgrade raffa-qrs2 .helm/tekton -i -n myapp-build 

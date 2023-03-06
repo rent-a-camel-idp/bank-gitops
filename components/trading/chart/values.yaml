@@ -1,0 +1,4 @@
+quarkus-run:
+  fullnameOverride: trading
+  image:
+    repository: quay.io/rent-a-camel-idp/trading
